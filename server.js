@@ -21,7 +21,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.listen("3000", () => console.log("Server started on port 3000"));
+app.listen("5000", () => console.log("Server started on port 5000"));
 
 app.get("/api/reviews/:id", (req, res) => {
   let LocationID = req.params.id;
@@ -117,12 +117,8 @@ app.post("/api/user/register", (req, res) => {
       let userSql = `INSERT INTO membership(UserID,UserName,Membership)
       values(?,?,?)`;
       var userID = 0;
-      console.log(`FirstName:${FirstName}`);
-      console.log(`LastName:${LastName}`);
-      console.log(`UserName:${UserName}`);
-      console.log(`EmailAddress:${EmailAddress}`);
-      console.log(`Password:${PasswordHash}`);
-      console.log(`Salt:${PasswordSalt}`);
+      //TODO: need to add username and email any record
+
       let query = db.query(
         sql,
         [
