@@ -21,10 +21,9 @@ ReactDOM.render(
     <BrowserRouter>
       <div>
         <Switch>
-          {/* <Header /> */}
           <Route path="/results/:post" component={ResultShow} />
           <Route path="/location/:id" component={IndivdualResults} />
-          <Route path="/login/" component={LoginForm} />
+          <Route path="/login" component={LoginForm} />
           <Route path="/register" component={RegisterForm} />
           <Route path="/" component={AdvanceSearch} />
         </Switch>

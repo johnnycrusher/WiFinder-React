@@ -1,22 +1,24 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import "../styles/header.css";
 
 export default class Header extends Component {
   render() {
     return (
-      <nav>
+      <nav id="navbar">
         <div className="container nav-wrapper">
           <a href="#" className="brand-logo">
             WiFinder
           </a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li>
-              <a href="sass.html">Sass</a>
+              <Link to="/">Search</Link>
             </li>
             <li>
-              <a href="badges.html">Components</a>
+              <Link to="/register">Sign-Up</Link>
             </li>
             <li>
-              <a href="collapsible.html">JavaScript</a>
+              <Link to="/login">Login</Link>
             </li>
           </ul>
         </div>
