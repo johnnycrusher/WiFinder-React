@@ -7,19 +7,26 @@ import promise from "react-redux";
 
 import registerServiceWorker from "./registerServiceWorker";
 import reducers from "./reducers";
+import Header from "./components/Header";
+import AdvanceSearch from "./components/AdvanceSearch";
+import ResultShow from "./components/ResultsShow";
+import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
+import IndivdualResults from "./components/IndivdualResults";
 
-const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+const createStoreWithMiddleware = applyMiddleware()(createStore);
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
       <div>
         <Switch>
-          {/* <Route path="/results/:post" component={PostNew} />
-          <Route path="/location/:id" component={PostShow} />
-          <Route path="/login/" component={Login} />
-          <Route path="/register" component={register} /> */}
-          <Route path="/" component={PostIndex} />
+          {/* <Header /> */}
+          <Route path="/results/:post" component={ResultShow} />
+          <Route path="/location/:id" component={IndivdualResults} />
+          <Route path="/login/" component={LoginForm} />
+          <Route path="/register" component={RegisterForm} />
+          <Route path="/" component={AdvanceSearch} />
         </Switch>
       </div>
     </BrowserRouter>
