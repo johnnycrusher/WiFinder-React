@@ -1,21 +1,28 @@
 input {
-  display: inline-block;
+  display: inline-block !important;
   margin: 0 auto;
-  border: solid 1px;
-  border-radius: 10px;
-  padding-left: 5px;
-  font-size: 150%;
-  width: 60%;
-  height: 2em;
+  border: solid 1px !important;
+  border-radius: 10px !important;
+  padding-left: 5px !important;
+  font-size: 150% !important;
+  width: 60% !important;
+  height: 2em !important;
 }
 button {
-  display: inline-block;
-  margin-left: 5px;
-  margin-bottom: 10px;
+  display: inline-block !important;
+  margin-left: 5px !important;
+  margin-bottom: 10px !important;
 }
 
 #Advance-Search {
   display: block;
   font-size: 30px !important;
   color: black;
+}
+
+#content {
+  min-height: 40em;
+}
+#LocationTypeSelect {
+  width: 50% !important;
 }

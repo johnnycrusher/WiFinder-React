@@ -9,27 +9,25 @@ import Footer from "./Footer";
 class AdvanceSearch extends Component {
   renderField(field) {
     return (
-      <div>
-        <label id="Advance-Search" className="browser-default">
+      <div className="form-group">
+        <label htmlFor={field.name} id="Advance-Search">
           {field.label}
         </label>
         <span>
-          <input className="browser-default" type={field.type} />
+          <input className="form-control" type={field.type} {...field.input} />
           <button className="btn">
-            <i className="medium material-icons">gps_fixed</i>
+            <i className="fa fa-map-marker fa-3x" />
           </button>
         </span>
       </div>
     );
   }
-  renderDropdown(field) {}
-
   render() {
     const { handleSubmit } = this.props;
     return (
       <div>
         <Header />
-        <div className="container center">
+        <div id="content" className="container center">
           Advance Search Section
           <form>
             <Field
@@ -39,7 +37,18 @@ class AdvanceSearch extends Component {
               component={this.renderField}
             />
             <h4 className="left-align">Narrow your search results by...</h4>
-            {/* <Field name="LocationType" label="Location Type:" /> */}
+            <div className="input-field col s2">
+              <label>Location Type: </label>
+              <Field
+                id="LocationTypeSelect"
+                name="LocationType"
+                component="select"
+              >
+                <option value="All">All</option>
+                <option value="Library">Library</option>
+                <option value="Park">Park</option>
+              </Field>
+            </div>
           </form>
         </div>
         <Footer />
