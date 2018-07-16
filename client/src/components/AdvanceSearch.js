@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import "../styles/AdvanceSearch.css";
+import { ratingChoose } from "../action/index";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -14,7 +15,12 @@ class AdvanceSearch extends Component {
           {field.label}
         </label>
         <span>
-          <input className="form-control" type={field.type} {...field.input} />
+          <input
+            id={field.id}
+            className="form-control"
+            type={field.type}
+            {...field.input}
+          />
           <button className="btn">
             <i className="fa fa-map-marker fa-3x" />
           </button>
@@ -22,8 +28,10 @@ class AdvanceSearch extends Component {
       </div>
     );
   }
+
   render() {
     const { handleSubmit } = this.props;
+    console.log(this.props);
     return (
       <div>
         <Header />
@@ -31,6 +39,7 @@ class AdvanceSearch extends Component {
           Advance Search Section
           <form>
             <Field
+              id="Search"
               name="Search"
               type="text"
               label="Advance Search"
@@ -49,6 +58,33 @@ class AdvanceSearch extends Component {
                 <option value="Park">Park</option>
               </Field>
             </div>
+            <div>
+              <label>Rating:</label>
+              With a minimum rating of
+              <span onClick={this.props.ratingChoose}>
+                <i id="one-star" className="fa fa-star-o" />
+              </span>
+              <span onClick={this.props.ratingChoose}>
+                <i id="two-star" className="fa fa-star-o" />
+              </span>
+              <span onClick={this.props.ratingChoose}>
+                <i id="three-star" className="fa fa-star-o" />
+              </span>
+              <span onClick={this.props.ratingChoose}>
+                <i id="four-star" className="fa fa-star-o" />
+              </span>
+              <span onClick={this.props.ratingChoose}>
+                <i id="five-star" className="fa fa-star-o" />
+              </span>
+              <div className="input-field col s2">
+                <Field
+                  id="rating"
+                  name="Rating"
+                  component="input"
+                  type="text"
+                />/5
+              </div>
+            </div>
           </form>
         </div>
         <Footer />
@@ -59,13 +95,11 @@ class AdvanceSearch extends Component {
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = {};
-
 export default reduxForm({
   form: "SearchForm"
 })(
   connect(
-    mapStateToProps,
-    mapDispatchToProps
+    null,
+    { ratingChoose }
   )(AdvanceSearch)
 );
