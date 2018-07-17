@@ -15,7 +15,7 @@ export function ratingChoose(e) {
   };
   for (let i = 0; i < stars.length; i++) {
     if (id === stars[i]) {
-      for (let j = 0; j < i; j++) {
+      for (let j = 0; j <= i; j++) {
         selectedRating[stars[j]] = true;
       }
     }

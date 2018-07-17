@@ -3,21 +3,23 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import promise from "react-redux";
+import promise from "redux-promise";
 
 import registerServiceWorker from "./registerServiceWorker";
 import reducers from "./reducers";
-import Header from "./components/Header";
 import AdvanceSearch from "./components/AdvanceSearch";
 import ResultShow from "./components/ResultsShow";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import IndivdualResults from "./components/IndivdualResults";
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
-
+const store = createStore(
+  reducers /* preloadedState, */,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  applyMiddleware(promise)
+);
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
+  <Provider store={store}>
     <BrowserRouter>
       <div>
         <Switch>

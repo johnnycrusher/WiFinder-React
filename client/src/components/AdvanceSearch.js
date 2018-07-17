@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
+import { bindActionCreators } from "redux";
 import "../styles/AdvanceSearch.css";
 import { ratingChoose } from "../action/index";
+import _ from "lodash";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -29,9 +31,35 @@ class AdvanceSearch extends Component {
     );
   }
 
+  countingNumOfStars() {
+    var numOfStars = 0;
+    var stars = [
+      "one-star",
+      "two-star",
+      "three-star",
+      "four-star",
+      "five-star"
+    ];
+    if (!_.isEmpty(this.props.rating)) {
+      for (var i = 0; i < 5; i++) {
+        if (this.props.rating[0][stars[i]]) {
+          numOfStars++;
+        }
+      }
+    }
+    return numOfStars;
+  }
+
+  componentDidMount() {
+    this.props.change("Rating", this.countingNumOfStars());
+  }
+
+  componentDidUpdate() {
+    this.props.change("Rating", this.countingNumOfStars());
+  }
+
   render() {
     const { handleSubmit } = this.props;
-    console.log(this.props);
     return (
       <div>
         <Header />
@@ -62,19 +90,64 @@ class AdvanceSearch extends Component {
               <label>Rating:</label>
               With a minimum rating of
               <span onClick={this.props.ratingChoose}>
-                <i id="one-star" className="fa fa-star-o" />
+                <i
+                  id="one-star"
+                  className={
+                    _.isEmpty(this.props.rating)
+                      ? "fa fa-star-o"
+                      : this.props.rating[0]["one-star"] === true
+                        ? "fa fa-star"
+                        : "fa fa-star-o"
+                  }
+                />
               </span>
               <span onClick={this.props.ratingChoose}>
-                <i id="two-star" className="fa fa-star-o" />
+                <i
+                  id="two-star"
+                  className={
+                    _.isEmpty(this.props.rating)
+                      ? "fa fa-star-o"
+                      : this.props.rating[0]["two-star"] === true
+                        ? "fa fa-star"
+                        : "fa fa-star-o"
+                  }
+                />
               </span>
               <span onClick={this.props.ratingChoose}>
-                <i id="three-star" className="fa fa-star-o" />
+                <i
+                  id="three-star"
+                  className={
+                    _.isEmpty(this.props.rating)
+                      ? "fa fa-star-o"
+                      : this.props.rating[0]["three-star"] === true
+                        ? "fa fa-star"
+                        : "fa fa-star-o"
+                  }
+                />
               </span>
               <span onClick={this.props.ratingChoose}>
-                <i id="four-star" className="fa fa-star-o" />
+                <i
+                  id="four-star"
+                  className={
+                    _.isEmpty(this.props.rating)
+                      ? "fa fa-star-o"
+                      : this.props.rating[0]["four-star"] === true
+                        ? "fa fa-star"
+                        : "fa fa-star-o"
+                  }
+                />
               </span>
               <span onClick={this.props.ratingChoose}>
-                <i id="five-star" className="fa fa-star-o" />
+                <i
+                  id="five-star"
+                  className={
+                    _.isEmpty(this.props.rating)
+                      ? "fa fa-star-o"
+                      : this.props.rating[0]["five-star"] === true
+                        ? "fa fa-star"
+                        : "fa fa-star-o"
+                  }
+                />
               </span>
               <div className="input-field col s2">
                 <Field
@@ -93,13 +166,19 @@ class AdvanceSearch extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+function mapStateToProps(state) {
+  return { rating: state.rating };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ ratingChoose }, dispatch);
+}
 
 export default reduxForm({
   form: "SearchForm"
 })(
   connect(
-    null,
-    { ratingChoose }
+    mapStateToProps,
+    mapDispatchToProps
   )(AdvanceSearch)
 );
