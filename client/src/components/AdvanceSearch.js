@@ -9,6 +9,7 @@ import _ from "lodash";
 
 import Header from "./Header";
 import Footer from "./Footer";
+import formValueSelector from "../../node_modules/redux-form/lib/formValueSelector";
 
 class AdvanceSearch extends Component {
   renderField(field) {
@@ -56,13 +57,20 @@ class AdvanceSearch extends Component {
 
   componentDidUpdate() {
     this.props.change("Rating", this.countingNumOfStars());
-    console.log(this.props.Location);
+    console.log(this.props.location);
+    if (!_.isEmpty(this.props.location)) {
+      this.props.change("latitude", this.props.location[0].latitude);
+      this.props.change("longitude", this.props.location[0].longitude);
+    }
   }
 
   onSubmit(values) {}
 
   render() {
     const { handleSubmit } = this.props;
+    // const {
+    //   coords: { latitude, longitude }
+    // } = this.props.location;
     return (
       <div>
         <Header />
@@ -71,7 +79,7 @@ class AdvanceSearch extends Component {
           <form>
             <Field
               id="Search"
-              name="Search"
+              name="search"
               type="text"
               label="Advance Search"
               component={this.renderField}
@@ -189,15 +197,20 @@ class AdvanceSearch extends Component {
 }
 
 function mapStateToProps(state) {
+  const selector = formValueSelector("SearchForm");
   return {
     rating: state.rating,
     location: state.location
+    // search: selector(state, "search"),
+    // ratingValue: selector(state, "Rating"),
+    // latitude: selector(state, "latitude"),
+    // longitude: selector(state, "longitude")
   };
 }
 
 function mapDispatchToProps(dispatch) {
   // ratingChooseAction: bindActionCreators({ ratingChoose }, dispatch)
-  return bindActionCreators({ getLocation }, dispatch);
+  return bindActionCreators({ getLocation, ratingChoose }, dispatch);
 }
 
 export default reduxForm({
