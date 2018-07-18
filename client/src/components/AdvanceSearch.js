@@ -50,6 +50,8 @@ class AdvanceSearch extends Component {
     return numOfStars;
   }
 
+  generateCoordinartes() {}
+
   componentDidMount() {
     this.props.change("Rating", this.countingNumOfStars());
   }
@@ -87,74 +89,74 @@ class AdvanceSearch extends Component {
               </Field>
             </div>
             <div>
-              <label>Rating:</label>
-              With a minimum rating of
-              <span onClick={this.props.ratingChoose}>
-                <i
-                  id="one-star"
-                  className={
-                    _.isEmpty(this.props.rating)
-                      ? "fa fa-star-o"
-                      : this.props.rating[0]["one-star"] === true
-                        ? "fa fa-star"
-                        : "fa fa-star-o"
-                  }
-                />
-              </span>
-              <span onClick={this.props.ratingChoose}>
-                <i
-                  id="two-star"
-                  className={
-                    _.isEmpty(this.props.rating)
-                      ? "fa fa-star-o"
-                      : this.props.rating[0]["two-star"] === true
-                        ? "fa fa-star"
-                        : "fa fa-star-o"
-                  }
-                />
-              </span>
-              <span onClick={this.props.ratingChoose}>
-                <i
-                  id="three-star"
-                  className={
-                    _.isEmpty(this.props.rating)
-                      ? "fa fa-star-o"
-                      : this.props.rating[0]["three-star"] === true
-                        ? "fa fa-star"
-                        : "fa fa-star-o"
-                  }
-                />
-              </span>
-              <span onClick={this.props.ratingChoose}>
-                <i
-                  id="four-star"
-                  className={
-                    _.isEmpty(this.props.rating)
-                      ? "fa fa-star-o"
-                      : this.props.rating[0]["four-star"] === true
-                        ? "fa fa-star"
-                        : "fa fa-star-o"
-                  }
-                />
-              </span>
-              <span onClick={this.props.ratingChoose}>
-                <i
-                  id="five-star"
-                  className={
-                    _.isEmpty(this.props.rating)
-                      ? "fa fa-star-o"
-                      : this.props.rating[0]["five-star"] === true
-                        ? "fa fa-star"
-                        : "fa fa-star-o"
-                  }
-                />
-              </span>
-              <div className="input-field col s2">
+              With a minimum rating of:
+              <div>
+                <span onClick={this.props.ratingChoose}>
+                  <i
+                    id="one-star"
+                    className={
+                      _.isEmpty(this.props.rating)
+                        ? "fa fa-star-o star"
+                        : this.props.rating[0]["one-star"] === true
+                          ? "fa fa-star star"
+                          : "fa fa-star-o star"
+                    }
+                  />
+                </span>
+                <span onClick={this.props.ratingChoose}>
+                  <i
+                    id="two-star"
+                    className={
+                      _.isEmpty(this.props.rating)
+                        ? "fa fa-star-o star"
+                        : this.props.rating[0]["two-star"] === true
+                          ? "fa fa-star star"
+                          : "fa fa-star-o star"
+                    }
+                  />
+                </span>
+                <span onClick={this.props.ratingChoose}>
+                  <i
+                    id="three-star"
+                    className={
+                      _.isEmpty(this.props.rating)
+                        ? "fa fa-star-o star"
+                        : this.props.rating[0]["three-star"] === true
+                          ? "fa fa-star star"
+                          : "fa fa-star-o star"
+                    }
+                  />
+                </span>
+                <span onClick={this.props.ratingChoose}>
+                  <i
+                    id="four-star"
+                    className={
+                      _.isEmpty(this.props.rating)
+                        ? "fa fa-star-o star"
+                        : this.props.rating[0]["four-star"] === true
+                          ? "fa fa-star star"
+                          : "fa fa-star-o star"
+                    }
+                  />
+                </span>
+                <span onClick={this.props.ratingChoose}>
+                  <i
+                    id="five-star"
+                    className={
+                      _.isEmpty(this.props.rating)
+                        ? "fa fa-star-o star"
+                        : this.props.rating[0]["five-star"] === true
+                          ? "fa fa-star star"
+                          : "fa fa-star-o star"
+                    }
+                  />
+                </span>
                 <Field
                   id="rating"
                   name="Rating"
                   component="input"
                   type="text"
+                  readOnly
                 />/5
               </div>
             </div>
