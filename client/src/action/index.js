@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const RATING_CHOICE = "rating_choice";
+export const GET_LOCATION = "get_location";
 
 export function ratingChoose(e) {
   var id = e.target.id;
@@ -24,5 +25,26 @@ export function ratingChoose(e) {
   return {
     type: RATING_CHOICE,
     payload: selectedRating
+  };
+}
+export function getLocation() {
+  const geolocation = navigator.geolocation;
+  const location = new Promise((resolve, reject) => {
+    if (!geolocation) {
+      reject(new Error("Not Supported"));
+    }
+
+    geolocation.getCurrentPosition(
+      position => {
+        resolve(position);
+      },
+      () => {
+        reject(new Error("Permission denied"));
+      }
+    );
+  });
+  return {
+    type: GET_LOCATION,
+    payload: location
   };
 }

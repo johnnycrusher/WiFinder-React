@@ -1,8 +1,8 @@
-import { RATING_CHOICE } from "../action/index";
+import { GET_LOCATION } from "../action/index";
 
 export default function(state = {}, action) {
   switch (action.type) {
-    case RATING_CHOICE:
+    case GET_LOCATION:
       return [action.payload];
     default:
       return state;

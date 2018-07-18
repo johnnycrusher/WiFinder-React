@@ -4,6 +4,7 @@ import { Field, reduxForm } from "redux-form";
 import { bindActionCreators } from "redux";
 import "../styles/AdvanceSearch.css";
 import { ratingChoose } from "../action/index";
+import { getLocation } from "../action/index";
 import _ from "lodash";
 
 import Header from "./Header";
@@ -23,9 +24,6 @@ class AdvanceSearch extends Component {
             type={field.type}
             {...field.input}
           />
-          <button className="btn">
-            <i className="fa fa-map-marker fa-3x" />
-          </button>
         </span>
       </div>
     );
@@ -50,7 +48,7 @@ class AdvanceSearch extends Component {
     return numOfStars;
   }
 
-  generateCoordinartes() {}
+  getCoordinartes() {}
 
   componentDidMount() {
     this.props.change("Rating", this.countingNumOfStars());
@@ -58,7 +56,10 @@ class AdvanceSearch extends Component {
 
   componentDidUpdate() {
     this.props.change("Rating", this.countingNumOfStars());
+    console.log(this.props.Location);
   }
+
+  onSubmit(values) {}
 
   render() {
     const { handleSubmit } = this.props;
@@ -75,6 +76,13 @@ class AdvanceSearch extends Component {
               label="Advance Search"
               component={this.renderField}
             />
+            <button
+              className="btn"
+              type="button"
+              onClick={this.props.getLocation}
+            >
+              <i className="fa fa-map-marker fa-3x" />
+            </button>
             <h4 className="left-align">Narrow your search results by...</h4>
             <div className="input-field col s2">
               <label>Location Type: </label>
@@ -158,6 +166,18 @@ class AdvanceSearch extends Component {
                   type="text"
                   readOnly
                 />/5
+                <Field
+                  name="latitude"
+                  component="input"
+                  type="hidden"
+                  readOnly
+                />
+                <Field
+                  name="longitude"
+                  component="input"
+                  type="hidden"
+                  readOnly
+                />
               </div>
             </div>
           </form>
@@ -169,11 +189,15 @@ class AdvanceSearch extends Component {
 }
 
 function mapStateToProps(state) {
-  return { rating: state.rating };
+  return {
+    rating: state.rating,
+    location: state.location
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ratingChoose }, dispatch);
+  // ratingChooseAction: bindActionCreators({ ratingChoose }, dispatch)
+  return bindActionCreators({ getLocation }, dispatch);
 }
 
 export default reduxForm({
