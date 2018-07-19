@@ -54,6 +54,46 @@ class AdvanceSearch extends Component {
   componentDidMount() {
     this.props.change("Rating", this.countingNumOfStars());
   }
+  findAddress(Coords){
+    const google = window.google;
+    var geocoder = new google.maps.Geocoder();
+    var location = "";
+    var cordinates = {"lat":Coords.latitude, "lng": Coords.longitude};
+    return new Promise( function(resolve,reject){
+      geocoder.geocode({'location': cordinates}, function(results, status){
+        if (status === 'OK'){
+            location  = results[0].address_components[0].long_name + " " + 
+            results[0].address_components[1].long_name + ", " + results[0].address_components[2].long_name;
+            resolve(location);
+        }else{
+          reject(new Error(`Couldn't find location for Lat:${cordinates.latitude}, Lng:${cordinates.longitude}`));
+        }
+      });
+    })
+  }
+
+  findLatLng(address){
+    const google = window.google;
+    var LatLngGeocoder = new google.maps.Geocoder();
+    return new Promise(function(resolve,reject){
+      LatLngGeocoder.geocode({
+        'address': address,
+        componentRestrictions: {
+          country: 'AU'
+      }
+      }, function (results,status){
+        if (status === "OK"){
+          var lng = results[0].geometry.location.lng();
+          var lat = results[0].geometry.location.lat();
+          var latlngJSON = {"latitude": lat, "longitude":lng};
+          resolve(latlngJSON);
+        }else{
+          reject(`Geocode was not for the following reasons: ${status}`)
+        }
+      })
+    })
+    
+  }
 
   componentDidUpdate() {
     this.props.change("Rating", this.countingNumOfStars());
@@ -61,10 +101,18 @@ class AdvanceSearch extends Component {
     if (!_.isEmpty(this.props.location)) {
       this.props.change("latitude", this.props.location[0].latitude);
       this.props.change("longitude", this.props.location[0].longitude);
+      var location = this.findAddress(this.props.location[0]);
+      this.props.change("search",location);
     }
+    if(!_.isEmpty(this.props.search)){
+      console.log(this.props.search);
+    }
+    
   }
 
-  onSubmit(values) {}
+  onSubmit(values) {
+
+  }
 
   render() {
     const { handleSubmit } = this.props;
@@ -200,11 +248,11 @@ function mapStateToProps(state) {
   const selector = formValueSelector("SearchForm");
   return {
     rating: state.rating,
-    location: state.location
-    // search: selector(state, "search"),
-    // ratingValue: selector(state, "Rating"),
-    // latitude: selector(state, "latitude"),
-    // longitude: selector(state, "longitude")
+    location: state.location,
+    search: selector(state, "search"),
+    ratingValue: selector(state, "Rating"),
+    latitude: selector(state, "latitude"),
+    longitude: selector(state, "longitude")
   };
 }
 
