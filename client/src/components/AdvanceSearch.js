@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { bindActionCreators } from "redux";
 import "../styles/AdvanceSearch.css";
-import { ratingChoose, getLocation } from "../action/index";
+import { ratingChoose, getLocation } from "../action";
 import _ from "lodash";
 
 import Header from "./Header";
 import Footer from "./Footer";
-import formValueSelector from "../../node_modules/redux-form/lib/formValueSelector";
+import formValueSelector from "redux-form/lib/formValueSelector";
 
 class AdvanceSearch extends Component {
   renderField(field) {

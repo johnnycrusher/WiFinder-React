@@ -1,4 +1,4 @@
-import { GET_WIFI_LOCATIONS } from "../action/index";
+import { GET_WIFI_LOCATIONS } from "../action";
 
 export default function(state = {}, action) {
   switch (action.type) {
