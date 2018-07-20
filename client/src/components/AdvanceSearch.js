@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { bindActionCreators } from "redux";
 import "../styles/AdvanceSearch.css";
-import { ratingChoose } from "../action/index";
-import { getLocation } from "../action/index";
+import { ratingChoose, getLocation } from "../action/index";
 import _ from "lodash";
 
 import Header from "./Header";
@@ -49,85 +48,98 @@ class AdvanceSearch extends Component {
     return numOfStars;
   }
 
-  getCoordinartes() {}
+  findAddress(Coords) {
+    const google = window.google;
+    var geocoder = new google.maps.Geocoder();
+    var location = "";
+    var cordinates = { lat: Coords.latitude, lng: Coords.longitude };
+    return new Promise(function(resolve, reject) {
+      geocoder.geocode({ location: cordinates }, function(results, status) {
+        if (status === "OK") {
+          location =
+            results[0].address_components[0].long_name +
+            " " +
+            results[0].address_components[1].long_name +
+            ", " +
+            results[0].address_components[2].long_name;
+          resolve(location);
+        } else {
+          reject(
+            new Error(
+              `Couldn't find location for Lat:${cordinates.latitude}, Lng:${
+                cordinates.longitude
+              }`
+            )
+          );
+        }
+      });
+    });
+  }
+
+  findLatLng(address) {
+    const google = window.google;
+    var LatLngGeocoder = new google.maps.Geocoder();
+    return new Promise(function(resolve, reject) {
+      LatLngGeocoder.geocode(
+        {
+          address: address,
+          componentRestrictions: {
+            country: "AU"
+          }
+        },
+        function(results, status) {
+          if (status === "OK") {
+            var lng = results[0].geometry.location.lng();
+            var lat = results[0].geometry.location.lat();
+            var latlngJSON = { latitude: lat, longitude: lng };
+            resolve(latlngJSON);
+          } else {
+            reject(`Geocode was not for the following reasons: ${status}`);
+          }
+        }
+      );
+    });
+  }
 
   componentDidMount() {
     this.props.change("Rating", this.countingNumOfStars());
   }
-  findAddress(Coords){
-    const google = window.google;
-    var geocoder = new google.maps.Geocoder();
-    var location = "";
-    var cordinates = {"lat":Coords.latitude, "lng": Coords.longitude};
-    return new Promise( function(resolve,reject){
-      geocoder.geocode({'location': cordinates}, function(results, status){
-        if (status === 'OK'){
-            location  = results[0].address_components[0].long_name + " " + 
-            results[0].address_components[1].long_name + ", " + results[0].address_components[2].long_name;
-            resolve(location);
-        }else{
-          reject(new Error(`Couldn't find location for Lat:${cordinates.latitude}, Lng:${cordinates.longitude}`));
-        }
-      });
-    })
-  }
-
-  findLatLng(address){
-    const google = window.google;
-    var LatLngGeocoder = new google.maps.Geocoder();
-    return new Promise(function(resolve,reject){
-      LatLngGeocoder.geocode({
-        'address': address,
-        componentRestrictions: {
-          country: 'AU'
-      }
-      }, function (results,status){
-        if (status === "OK"){
-          var lng = results[0].geometry.location.lng();
-          var lat = results[0].geometry.location.lat();
-          var latlngJSON = {"latitude": lat, "longitude":lng};
-          resolve(latlngJSON);
-        }else{
-          reject(`Geocode was not for the following reasons: ${status}`)
-        }
-      })
-    })
-    
-  }
 
   componentDidUpdate() {
     this.props.change("Rating", this.countingNumOfStars());
-    console.log(this.props.location);
     if (!_.isEmpty(this.props.location)) {
-      this.props.change("latitude", this.props.location[0].latitude);
-      this.props.change("longitude", this.props.location[0].longitude);
+      this.props.change("Latitude", this.props.location[0].latitude);
+      this.props.change("Longitude", this.props.location[0].longitude);
       var location = this.findAddress(this.props.location[0]);
-      this.props.change("search",location);
+      this.props.change("Search", location);
     }
-    if(!_.isEmpty(this.props.search)){
-      console.log(this.props.search);
-    }
-    
   }
 
   onSubmit(values) {
-
+    this.findLatLng(this.props.search).then(geoLocation => {
+      this.props.change("Latitude", geoLocation["latitude"]);
+      this.props.change("Longitude", geoLocation["longitude"]);
+      values.Latitude = this.props.Latitude;
+      values.Longitude = this.props.Longitude;
+      values.Order = "distance";
+      var queryString = `?Latitude=${values.Latitude}&Longitude=${
+        values.Longitude
+      }&LocationType=park&Rating=${values.Rating}&Order=${values.Order}`;
+      this.props.history.push(`/results${queryString}`);
+    });
   }
 
   render() {
     const { handleSubmit } = this.props;
-    // const {
-    //   coords: { latitude, longitude }
-    // } = this.props.location;
     return (
       <div>
         <Header />
         <div id="content" className="container center">
           Advance Search Section
-          <form>
+          <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
             <Field
               id="Search"
-              name="search"
+              name="Search"
               type="text"
               label="Advance Search"
               component={this.renderField}
@@ -223,17 +235,20 @@ class AdvanceSearch extends Component {
                   readOnly
                 />/5
                 <Field
-                  name="latitude"
+                  name="Latitude"
                   component="input"
                   type="hidden"
                   readOnly
                 />
                 <Field
-                  name="longitude"
+                  name="Longitude"
                   component="input"
                   type="hidden"
                   readOnly
                 />
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
               </div>
             </div>
           </form>
@@ -249,10 +264,10 @@ function mapStateToProps(state) {
   return {
     rating: state.rating,
     location: state.location,
-    search: selector(state, "search"),
+    search: selector(state, "Search"),
     ratingValue: selector(state, "Rating"),
-    latitude: selector(state, "latitude"),
-    longitude: selector(state, "longitude")
+    Latitude: selector(state, "Latitude"),
+    Longitude: selector(state, "Longitude")
   };
 }
 

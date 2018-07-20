@@ -35,6 +35,7 @@ app.get("/api/reviews/:id", (req, res) => {
 
 app.get("/api/AdvanceSearch/", (req, res) => {
   let postData = req.query;
+  console.log(postData);
   let sql = `SELECT w.LocationID, w.LocationName, w.LocationType, w.LocationAddress, w.LocationSuburb, w.Latitude, w.Longitude,
       (3959 * acos(cos(radians(?))*cos(radians(Latitude))*cos(radians(Longitude)-radians(?))+sin(radians(?))*sin(radians(Latitude))))
       AS distance, ifnull(round(avg(r.ReviewRating),1),0) AS AvgRating FROM wifi_location w
@@ -91,7 +92,6 @@ app.get("/api/location/:id", (req, res) => {
   Where w.LocationID=?
   GROUP BY LocationID `;
   let query = db.query(sql, [req.params.id], (err, result) => {
-    if (err) throw err;
     res.send(result);
   });
 });

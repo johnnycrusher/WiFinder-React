@@ -2,6 +2,9 @@ import axios from "axios";
 
 export const RATING_CHOICE = "rating_choice";
 export const GET_LOCATION = "get_location";
+export const GET_WIFI_LOCATIONS = "get_wifi_locations";
+
+const ROOT_URL = "/api";
 
 export function ratingChoose(e) {
   var id = e.target.id;
@@ -21,7 +24,6 @@ export function ratingChoose(e) {
       }
     }
   }
-
   return {
     type: RATING_CHOICE,
     payload: selectedRating
@@ -46,5 +48,17 @@ export function getLocation() {
   return {
     type: GET_LOCATION,
     payload: location
+  };
+}
+
+export function getWiFiLocations(values) {
+  const request = axios.get(
+    `${ROOT_URL}/AdvanceSearch/?Latitude=${values.Latitude}&Longitude=${
+      values.Longitude
+    }&LocationType=park&Rating=${values.Rating}&Order=${values.Order}`
+  );
+  return {
+    type: GET_WIFI_LOCATIONS,
+    payload: request
   };
 }
