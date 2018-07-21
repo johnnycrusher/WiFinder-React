@@ -41,7 +41,6 @@ export default class LocationList extends Component {
         })}
       </div>
     );
-    // console.log(LocationID);
   }
   render() {
     if (!_.isEmpty(this.props.data)) {

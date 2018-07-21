@@ -11,7 +11,6 @@ class ResultsShow extends Component {
   componentDidMount() {
     const query = queryString.parse(this.props.location.search);
     this.props.getWiFiLocations(query);
-    console.log(this.props.wifiLocation);
   }
   render() {
     return (

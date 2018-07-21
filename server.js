@@ -84,6 +84,7 @@ app.get("/api/BasicSearch/", (req, res) => {
 });
 
 app.get("/api/location/:id", (req, res) => {
+  let LocationID = req.params.id;
   let sql = `SELECT w.LocationID, w.LocationName, w.LocationType, w.LocationAddress, w.LocationSuburb, w.Latitude, w.Longitude, 
   ifnull(round(avg(r.ReviewRating),1),0) AS AvgRating
   FROM wifi_location w 
@@ -91,7 +92,8 @@ app.get("/api/location/:id", (req, res) => {
   ON w.LocationID = r.LocationID
   Where w.LocationID=?
   GROUP BY LocationID `;
-  let query = db.query(sql, [req.params.id], (err, result) => {
+  let query = db.query(sql, [LocationID], (err, result) => {
+    if (err) throw err;
     res.send(result);
   });
 });

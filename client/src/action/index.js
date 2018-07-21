@@ -3,6 +3,8 @@ import axios from "axios";
 export const RATING_CHOICE = "rating_choice";
 export const GET_LOCATION = "get_location";
 export const GET_WIFI_LOCATIONS = "get_wifi_locations";
+export const GET_LOCATION_DETAILS = "get_location_details";
+export const GET_REVIEW_DETAILS = "get_review_details";
 
 const ROOT_URL = "/api";
 
@@ -59,6 +61,22 @@ export function getWiFiLocations(values) {
   );
   return {
     type: GET_WIFI_LOCATIONS,
+    payload: request
+  };
+}
+
+export function getLocationInformation(id) {
+  const request = axios.get(`${ROOT_URL}/location/${id}`);
+  return {
+    type: GET_LOCATION_DETAILS,
+    payload: request
+  };
+}
+
+export function getReviewDetails(id) {
+  const request = axios.get(`${ROOT_URL}/reviews/${id}`);
+  return {
+    type: GET_REVIEW_DETAILS,
     payload: request
   };
 }
