@@ -86,7 +86,7 @@ app.get("/api/BasicSearch/", (req, res) => {
 app.get("/api/location/:id", (req, res) => {
   let LocationID = req.params.id;
   let sql = `SELECT w.LocationID, w.LocationName, w.LocationType, w.LocationAddress, w.LocationSuburb, w.Latitude, w.Longitude, 
-  ifnull(round(avg(r.ReviewRating),1),0) AS AvgRating
+  ifnull(round(avg(r.ReviewRating),1),0) AS AvgRating, IFNULL(count(r.ReviewRating),0) AS NumberOfRatings
   FROM wifi_location w 
   LEFT JOIN reviews r
   ON w.LocationID = r.LocationID

@@ -2,8 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Header from "./Header";
 import Footer from "./Footer";
-import { getLocationInformation, getReviewDetails } from "../action/index";
+import { getLocationInformation, getReviewDetails } from "../action";
 import { bindActionCreators } from "redux";
+import LocationInformation from "./LocationInformation";
+import Map from "./Map";
+import _ from "lodash";
 
 class IndivdualResults extends Component {
   componentDidMount() {
@@ -13,13 +16,47 @@ class IndivdualResults extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <Header />
-        <div>Indivdual Results Section</div>
-        <Footer />
-      </div>
-    );
+    if (
+      !_.isEmpty(this.props.LocationDetails) &&
+      !_.isEmpty(this.props.ReviewDetails)
+    ) {
+      return (
+        <div>
+          <Header />
+          <div
+            className="container"
+            itemScope
+            itemType="http://schema.org/Place"
+          >
+            Indivdual Results Section
+            <Map
+              Latitude={this.props.LocationDetails[0].Latitude}
+              Longitude={this.props.LocationDetails[0].Longitude}
+              data={this.props.LocationDetails}
+              width="720px"
+              height="360px"
+            />
+            <LocationInformation data={this.props.LocationDetails} />
+          </div>
+          <Footer />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Header />
+          <div
+            className="container"
+            itemScope
+            itemType="http://schema.org/Place"
+          >
+            Indivdual Results Section
+            <p>Loading...</p>
+          </div>
+          <Footer />
+        </div>
+      );
+    }
   }
 }
 
