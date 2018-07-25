@@ -8,6 +8,7 @@ import LocationInformation from "./LocationInformation";
 import ReviewSection from "./ReviewSection";
 import Map from "./Map";
 import _ from "lodash";
+import WriteReviewSection from "./WriteReviewSection";
 
 class IndivdualResults extends Component {
 	componentDidMount() {
@@ -41,6 +42,7 @@ class IndivdualResults extends Component {
 							data={this.props.LocationDetails}
 						/>
 						<ReviewSection reviewData={this.props.ReviewDetails} />
+						<WriteReviewSection />
 					</div>
 					<Footer />
 				</div>

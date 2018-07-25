@@ -24,7 +24,7 @@ export default class ReviewItem extends Component {
 					<span itemProp="ratingValue">{this.props.rating}</span> /
 					<span itemProp="bestRating">5</span> stars
 				</div>
-				<p itempProp="description">{this.props.description}</p>
+				<p itemProp="description">{this.props.description}</p>
 			</div>
 		);
 	}
